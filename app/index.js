@@ -1,25 +1,29 @@
 import { Pressable, Text, FlatList, Image, StyleSheet } from 'react-native';
 import cities from '../data/cities';
 import { Link } from 'expo-router';
+import Animated from 'react-native-reanimated';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const CityGrid = () => {
   const renderItem = ({ item }) => (
     <Link href={`/${item.id}`} asChild>
       <Pressable style={styles.item}>
-        <Image source={{ uri: item.image }} style={styles.image} />
-        <Text style={styles.cityName}>{item.name}</Text>
+        <Animated.Image sharedTransitionTag={`image-${item.id}`} source={{ uri: item.image }} style={styles.image} />
+        <Animated.Text sharedTransitionTag={`title-${item.id}`} style={styles.cityName}>{item.name}</Animated.Text>
       </Pressable>
     </Link>
   );
 
   return (
-    <FlatList
-      data={cities}
-      numColumns={2}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id}
-    />
+    <SafeAreaView>
+      <FlatList
+        data={cities}
+        numColumns={2}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+      />
+    </SafeAreaView>
   );
 };
 
